@@ -1,4 +1,13 @@
-.env
+# Python
 __pycache__/
 *.pyc
+
+# Environment
+.env
+
+# History/logs
 chat_history.json
+
+# OS-specific
+.DS_Store
+Thumbs.db
