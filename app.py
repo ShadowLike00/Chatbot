@@ -47,12 +47,21 @@ def google_search(query):
         response = requests.get(url, params=params)
         results = response.json()
 
-        answer = results.get("answer_box", {}).get("answer")
-        if not answer:
-            answer = results.get("organic_results", [{}])[0].get("snippet", "No direct answer found.")
+        answer_box = results.get("answer_box", {}).get("answer")
+        if answer_box:
+            return answer_box
 
-        return answer
+        organic = results.get("organic_results", [])
+        if organic:
+            first = organic[0]
+            title = first.get("title", "No title")
+            snippet = first.get("snippet", "No snippet available.")
+            link = first.get("link", "#")
+            return f"🔎 {title}\n{snippet}\n🌐 {link}"
+
+        return "No useful results found on Google."
     except Exception as e:
+        print("Google Search error:", e)
         return "Error fetching search results."
 
 @app.route("/chat", methods=["POST"])
